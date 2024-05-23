@@ -1,0 +1,201 @@
+Date Component
+
+a!dateField(
+  label: "Created On",
+  value: date(2013, 1, 12)
+)
+
+Date and Time Component with only a label
+a!dateTimeField(
+  label: "Created On",
+  value: datetime(2013, 1, 12, 11, 20),
+  readOnly: true
+)
+
+Date and Time Component with a validation 
+a!localVariables(
+  local!storedValue:now()-1,
+  a!dateTimeField(
+    label: "Meeting Date and Time",
+    value: local!storedValue,
+    saveInto: local!storedValue,
+    validations: if(
+      local!storedValue <= now(),
+      "Please schedule a meeting for a future date and time",
+      ""
+    )
+  )
+)
+Collect a decimal value from a user
+a!localVariables(
+  local!referenceNumber: 0,
+  a!floatingPointField(
+    label: "Reference Number",
+    value: local!referenceNumber,
+    saveInto: local!referenceNumber
+  )
+)
+
+Display a decimal with a label
+a!localVariables(
+  local!storedPrice:0,
+  a!floatingPointField(
+    label: "Unit Price",
+    value: local!storedPrice,
+    saveInto: local!storedPrice,
+    validations: if(
+      local!storedPrice <= 0,
+      "A valid price greater than $0.00 must be entered",
+      ""
+    )
+  )
+)
+
+Decimal with a validation 
+a!localVariables(
+  local!storedPrice:0,
+  a!floatingPointField(
+    label: "Unit Price",
+    value: local!storedPrice,
+    saveInto: local!storedPrice,
+    validations: if(
+      local!storedPrice <= 0,
+      "A valid price greater than $0.00 must be entered",
+      ""
+    )
+  )
+)
+
+Encrypting and decrypting a value from a user
+a!localVariables(
+  local!secret,
+  {
+    a!columnsLayout(
+      columns: {
+        a!columnLayout(
+          contents: {
+            a!encryptedTextField(
+              label: "Input",
+              instructions: "Enter a secret here",
+              masked: true,
+              value: local!secret,
+              saveInto: local!secret,
+              refreshAfter: "KEYPRESS"
+            )
+          }
+        ),
+        a!columnLayout(
+          contents: {
+            a!encryptedTextField(
+              label: "Output",
+              instructions: "The value is displayed here",
+              value: local!secret,
+              readOnly: true
+            )
+          }
+        )
+      }
+    )
+  }
+)
+Collect an integer value from a user
+
+a!localVariables(
+  local!referenceNumber: 0,
+  a!integerField(
+    label: "Reference Number",
+    value: local!referenceNumber,
+    saveInto: local!referenceNumber
+  )
+)
+Integer with only a label
+a!integerField(
+  label: "Reference Number",
+  value: 12345,
+  readOnly: true
+)
+
+Integer with a validation 
+a!localVariables(
+  local!storedValue: tointeger(null),
+  a!integerField(
+    label: "Number of Items",
+    value: local!storedValue,
+    saveInto: local!storedValue,
+    validations: if(
+      local!storedValue < 1,
+      "You must enter at least one item",
+      ""
+    )
+  )
+)
+
+Description paragraph with a label and instructions
+a!paragraphField(
+  label: "Description",
+  instructions: "The description must include the problem statement",
+  value: "Expenses could not be submitted. When " & char(10) & " I click on the expenses link, I see an error page."
+)
+
+Text with only a label
+a!textField(
+  label: "Title",
+  value: "Expenses could not be submitted",
+  readOnly: true
+)
+Text with label and instructions
+a!textField(
+  label: "Title",
+  instructions: "The ticket title is exactly as entered by the creator",
+  value: "Expenses could not be submitted",
+  readOnly: true
+) 
+Time with 24-hour formatting
+a!textField(
+  label: "Daily Meeting Time",
+  value: text(time(13, 20), "hh:mm"),
+  readOnly: true
+)
+Integer with no formatting or with special formatting
+a!textField(
+  label: "Reference Number",
+  value: 12345,
+  readOnly: true
+)
+
+Integer formatted as currency
+a!textField(
+  label: "Amount",
+  value: a!currency(
+    isoCode: "USD",
+    value: 12345
+  ),
+  readOnly: true
+)
+Date with "m/dd/yy" formatting
+a!textField(
+  label: "Created On",
+  value: text(date(2013,1,12), "m/dd/yy"),
+  readOnly: true
+)
+
+Date and time with "m/dd/yy h:mm a" formatting
+a!textField(
+  label: "Created On",
+  value: text(datetime(2013,1,12, 11, 20), "m/dd/yy h:mm a"),
+  readOnly: true
+) 
+
+Text with character limit
+a!localVariables(
+  local!storedPhoneNumber: "555-456-7890-876",
+  a!textField(
+    label: "Phone Number",
+    instructions: "Include only dashes and numbers. For example, 555-456-7890.",
+    value: local!storedPhoneNumber,
+    saveInto: local!storedPhoneNumber,
+    characterLimit: 12,
+    showCharacterCount: true
+  )
+)
+
